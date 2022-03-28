@@ -8,5 +8,24 @@ module.exports = {
     },
     insert(messages){
         return model.create(messages)
+    },
+    async selectById(id){
+        const messageFound = await model.findOne({
+            where:{
+                id: id
+            }
+        })
+        if(!messageFound){
+            throw new Error('Message not found!')
+        }
+        return messageFound
+    },
+    async updateById(id, dataToUpdate){
+        return model.update(
+            dataToUpdate,
+            {
+                where: { id: id}
+            }
+        )
     }
 }

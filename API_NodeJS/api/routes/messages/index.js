@@ -3,8 +3,9 @@ const router = require('express').Router()
 //This will carry all query methods of a table
 const TableMessages = require('./TableMessages')
 const Messages = require('./Messages')
+const { response } = require('express')
 
-//This configures a endpoint behavior SHOW
+//This configures a endpoint behavior to SHOW data
 //get- will catch some data if exists
 //async- means assincronal/not at the same time/wait for some
 //resquest- what we are sending via Postman
@@ -20,6 +21,7 @@ router.get('/', async (request, response) => {
     )
 })
 
+//This configures a endpoint behavior to INSERT data
 router.post('/', async (request,response) =>{
     //This will get the data in response body, storing at this variable
     const messageReceived = request.body
@@ -29,6 +31,47 @@ router.post('/', async (request,response) =>{
     response.send(
         JSON.stringify(messages)
     )
+})
+
+//This configures a endpoint behavior to SHOW some data by ID
+router.get('/:idMessage', async (request, response) =>{
+    try{
+        //This colect a param from URI
+        const id = request.params.idMessage
+        //This injects ID, to return a query object
+        const message = new Messages({ id: id})
+        await message.loadMessage()
+        response.send(
+            JSON.stringify(message)
+        )
+        
+    } catch(err){
+        response.send(
+            JSON.stringify({
+                errMessage: err.message
+            })
+        )
+    }
+})
+//This configures a endpoint behavior to SHOW some data by ID
+router.put('/:idMessage', async (request, response) =>{
+    try{
+        //This colect a param from URI
+        const id = request.params.idMessage
+        //This colect data fom request body
+        const dataReceived = request.body
+        //This merge two objects in a single one, where assing(Empty Group, object 1, object 2)
+        const data = Object.assign({}, dataReceived, { id: id})
+        const message = new Messages(data)
+        await message.updateMessage()
+        response.end()
+    } catch(err){
+        response.send(
+            JSON.stringify({
+                errMessage: err.message
+            })
+        )
+    }
 })
 //This will return the router response to the API
 module.exports = router
