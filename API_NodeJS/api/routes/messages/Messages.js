@@ -43,6 +43,9 @@ class Messages{
         //This set the id, for the fiels given.
         TableMessages.updateById(this.id, dataToUpdate)
     }
+    async remove(){
+        await TableMessages.removeById(this.id)
+    }
 }
 //Share the class with the API
 module.exports = Messages

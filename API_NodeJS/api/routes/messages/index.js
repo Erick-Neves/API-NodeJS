@@ -73,5 +73,21 @@ router.put('/:idMessage', async (request, response) =>{
         )
     }
 })
+
+router.delete('/:idMessage', async (request, response) =>{
+    try{
+        const id = request.params.idMessage
+        const message = new Messages({ id: id})
+        await message.loadMessage()
+        await message.remove()
+        response.end()
+    }catch(err){
+        response.send(
+            JSON.stringify({
+                errMessage: err.message
+            })
+        )
+    }
+})
 //This will return the router response to the API
 module.exports = router

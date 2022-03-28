@@ -20,12 +20,17 @@ module.exports = {
         }
         return messageFound
     },
-    async updateById(id, dataToUpdate){
+    updateById(id, dataToUpdate){
         return model.update(
             dataToUpdate,
             {
                 where: { id: id}
             }
         )
+    },
+    removeById(id){
+        return model.destroy({
+            where: { id: id}
+        })
     }
 }
