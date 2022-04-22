@@ -13,6 +13,6 @@ const router = require('./routes/messages')
 //This show the endpoint accessible by Postman, where router receive the method response
 app.use('/api/messages', router)
 //Listen- a port to connect
-app.listen(config.get('api.port'), () => console.log('A API está funcionando'))
+app.listen(config.get('api.port'), () => console.log('A API is running'))
 
 
